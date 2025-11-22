@@ -16,11 +16,8 @@ import ShopingAccount from './pages/shoping-view/account'
 import CheckAuth from './components/common/check-auth'
 import UnAuthpage from './pages/un-authpage'
 function App() {
-      const isAuthenticated = true;
-      const user = {
-        name: 'rahmat',
-        role : 'admin',
-      }
+      const isAuthenticated = false;
+      const user = null
       
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
@@ -67,8 +64,8 @@ function App() {
 
       </Route>
 
-        <Route path='*' element={<Notfound/>}/>
         <Route  path='/unauth-page' element={<UnAuthpage/>}/>
+        <Route path='*' element={<Notfound/>}/>
       </Routes>
      
     </div>
