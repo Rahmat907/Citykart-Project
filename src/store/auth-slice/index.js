@@ -35,6 +35,19 @@
       return response.data;
     }
   );
+   export const logoutUser = createAsyncThunk(
+    "/auth/logout",
+    async () => {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/logout",{}, // yeah se main request bheja backend ko
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    }
+  );
+
 
   export const checkAuth = createAsyncThunk(
     "/auth/checkAuth",
@@ -93,6 +106,10 @@
           state.isLoading = false;
           state.user = null;
           state.isAuthenticated= false;
+      }).addCase(logoutUser.fulfilled, (state,action)=>{
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;  
       })
     }
   });
