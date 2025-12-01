@@ -1,5 +1,5 @@
 import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import { Button } from '../ui/button'
@@ -9,6 +9,8 @@ import { shoppingViewHeaderMenuItems } from '@/config'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { logoutUser } from '@/store/auth-slice'
+import UserCartWrapper from './cart-wrapper'
+import { fetchCartItems } from '@/store/shop/cart-slice'
 
 const MenuItems = ()=>{
   return <nav className='flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row'>
@@ -21,18 +23,28 @@ const MenuItems = ()=>{
 
 const HeaderRightContent = ()=>{
       const {user} = useSelector(state=>state.auth)
+      const {cartItems} = useSelector(state => state.shopCart)
       const navigate = useNavigate()
       const dispatch = useDispatch()
-
+      
+      const [openCartSheet, setopenCartSheet] = useState(false)
       const handleLogout = ()=>{
         dispatch(logoutUser())
       }
 
+      useEffect(()=>{
+        dispatch(fetchCartItems(user?.id))
+      },[dispatch])
+
    return <div className='flex lg:items-center lg:flex-row flex-col gap-4 '>
-    <Button variant="outline" size= "icon"> 
+    <Sheet open = {openCartSheet} onOpenChange = {()=>setopenCartSheet(false)} >
+      <Button onClick = {()=> setopenCartSheet(true)} 
+      variant="outline" size= "icon"> 
           <ShoppingCart  className='w-6 h-6'/>
     <span className='sr-only'>User Cart</span>
     </Button>
+    <UserCartWrapper cartItems={cartItems && cartItems.items && cartItems.items.length > 0 ? cartItems.items : []}  />
+    </Sheet>
     <DropdownMenu> 
       <DropdownMenuTrigger asChild>
       <Avatar className= 'bg-black'>
@@ -58,9 +70,9 @@ const HeaderRightContent = ()=>{
 
 const ShoppingHeader = () => {
 
-    const {isAuthenticated,user} = useSelector(state=>state.auth)
+    // const {isAuthenticated,user} = useSelector(state=>state.auth)
 
-    console.log("The User is", user);
+    // console.log("The User is", user);
     
   return (
     <header className='sticky top-0 z-40 w-full border-b bg-background'>
