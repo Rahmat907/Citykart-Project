@@ -8,10 +8,10 @@ import { createNewOrder } from "@/store/shop/Order-slice";
 const ShopingCheckout = () => {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
+  const { approvalURL } = useSelector((state) => state.shopOrder);
   const [currentSelectedAddress, setcurrentSelectedAddress] = useState(null);
   const [isPaymentStart,setisPaymentStart] = useState(false)
   const dispatch = useDispatch()
-  
   // console.log("addres info", currentSelectedAddress);
   // console.log(cartItems);
   const totalCartAmount =
@@ -70,6 +70,9 @@ const ShopingCheckout = () => {
     })
   };
 
+  if(approvalURL){
+    window.location.href = approvalURL
+  }
   
 
   return (
