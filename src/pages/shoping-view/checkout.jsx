@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import imagess from "../../assets/image/aimg.webp";
 import Address from "@/components/shoping-view-c/address";
 import { useDispatch, useSelector } from "react-redux";
 import UserCartItemsContent from "@/components/shoping-view-c/cart-items-content";
 import { Button } from "@/components/ui/button";
 import { createNewOrder } from "@/store/shop/Order-slice";
+import { toast } from "sonner";
 const ShopingCheckout = () => {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
@@ -28,8 +29,18 @@ const ShopingCheckout = () => {
       : 0;
 
   const handleInitiatePaypalPayment = () => {
+    if(cartItems.items.length === 0){
+      toast.warning('Your Cart is Empty. Please add items to proceed')
+      return;
+    }
+
+    if(currentSelectedAddress === null){
+      toast.warning('Please select one address to proceed')
+      return
+    }
     const orderData = {
       userId: user?.id,
+      cartId: cartItems?._id,
       cartItems: cartItems?.items.map((singlecartitem) => ({
         productId: singlecartitem?.productId,
         title: singlecartitem?.title,
@@ -70,9 +81,13 @@ const ShopingCheckout = () => {
     })
   };
 
-  if(approvalURL){
+  useEffect(()=>{
+    if(approvalURL){
     window.location.href = approvalURL
   }
+
+  },[approvalURL])
+  
   
 
   return (
