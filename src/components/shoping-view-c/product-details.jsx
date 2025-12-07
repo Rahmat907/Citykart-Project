@@ -56,12 +56,11 @@ const ProductDetailsDialogue = ({ open, setOpen, productDetails }) => {
                 productDetails?.salePrice > 0 ? "line-through" : ""
               }`}
             >
-              {" "}
-              ${productDetails?.price}
+              {"\u20B9"} {productDetails?.price}
             </p>
             {productDetails?.salePrice > 0 ? (
               <p className="text-2xl font-bold text-muted-foreground">
-                ${productDetails?.salePrice}
+                {"\u20B9"} {productDetails?.salePrice}
               </p>
             ) : null}
           </div>
@@ -77,6 +76,7 @@ const ProductDetailsDialogue = ({ open, setOpen, productDetails }) => {
           </div>
           <div className="mt-5 mb-5">
             <Button
+            disabled={productDetails?.totalStock === 0}
               className="w-full"
               onClick={() => handleAddtoCart(productDetails?._id)}
             >

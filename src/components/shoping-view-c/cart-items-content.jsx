@@ -72,7 +72,7 @@ const UserCartItemsContent = ({ cartItems }) => {
       </div>
       <div>
         <p className="font-semibold">
-          $
+          {"\u20B9"}{" "}
           {(
             (cartItems?.salePrice > 0
               ? cartItems?.salePrice

@@ -33,7 +33,7 @@ const createSearchParamsHelper = (filterParams) => {
       queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
     }
   }
-  console.log("The query", queryParams);
+  // console.log("The query", queryParams);
 
   return queryParams.join("&");
 };
@@ -80,7 +80,7 @@ const ShopingListing = () => {
   };
 
   const handleGetProductDetails = (getCurrentProductId) => {
-    console.log(getCurrentProductId);
+    // console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
   };
 
