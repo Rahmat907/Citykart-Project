@@ -48,9 +48,9 @@ const ShopingOrderDetails = ({ orderDetails }) => {
                 <Badge className="bg-gray-500">In Shipping</Badge>
               ) : orderDetails?.orderStatus === "delivered" ? (
                 <Badge className="bg-green-500">Delivered</Badge>
-              ) : (
+              ) : orderDetails?.orderStatus === "rejected" ? (
                 <Badge variant="destructive">Rejected</Badge>
-              )}
+              ) : null}
             </Label>
           </div>
         </div>

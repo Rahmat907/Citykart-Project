@@ -10,6 +10,7 @@ import {
   getOrderDetailsForAdmin,
   updateOrderDetailsForAdmin,
 } from "@/store/admin-store/Order-slice";
+import { toast } from "sonner";
 
 const initialFormData = {
   status: "",
@@ -33,6 +34,7 @@ const AdminOrderDetails = ({ orderDetails }) => {
         dispatch(getOrderDetailsForAdmin(orderDetails?._id));
         dispatch(getAllOrdersForAdmin());
         setFormData(initialFormData);
+        toast.success("Order status updated successfully");
       }
     });
   };
@@ -77,9 +79,9 @@ const AdminOrderDetails = ({ orderDetails }) => {
                 <Badge className="bg-gray-500">In Shipping</Badge>
               ) : orderDetails?.orderStatus === "delivered" ? (
                 <Badge className="bg-green-500">Delivered</Badge>
-              ) : (
+              ) : orderDetails?.orderStatus === "rejected" ? (
                 <Badge variant="destructive">Rejected</Badge>
-              )}
+              ) : null}
             </Label>
           </div>
         </div>
